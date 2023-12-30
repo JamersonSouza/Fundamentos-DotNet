@@ -58,21 +58,24 @@ namespace projeto_estacionamento.model
             Console.WriteLine("Digite a placa do veículo para remover:");
             string placa = Console.ReadLine() ?? string.Empty;
             if(!string.IsNullOrWhiteSpace(placa)){
-                // if (veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
-                // {
-                // Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
-                // decimal precoHora = precoPorHora; 
-                // decimal precoInicio = precoInicial; 
-                // int horas = horasEstacionado;
-                //  decimal valorTotal = precoInicial + (precoPorHora * horas);
-                // veiculos.Remove(placa.ToUpper());                
+                 if (veiculos.ContainsKey(placa))
+                 {
+                 DateTime horaAdicao = veiculos[placa];
+                 DateTime horaRemocao = DateTime.Now;
 
-                // Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
-                // }
-                // else
-                // {
-                // Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
-                // }
+                 TimeSpan tempoEstacionado = horaRemocao - horaAdicao;
+                 double horasEstacionadas = tempoEstacionado.TotalHours;
+                 decimal precoHora = precoPorHora; 
+                 decimal precoInicio = precoInicial; 
+                 decimal valorTotal = precoInicio + (precoHora * (decimal)horasEstacionadas);
+                 veiculos.Remove(placa.ToUpper());                
+
+                 Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                 }
+                 else
+                 {
+                 Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
+                 }
             }else{
                  Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
             }
